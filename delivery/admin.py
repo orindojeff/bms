@@ -3,9 +3,6 @@ from django.contrib.admin import ModelAdmin
 from .models import Location, PickUpStation, UserPickUpStation, Delivery
 
 
-
-
-
 class LocationAdmin(admin.ModelAdmin):
     list_display = ('name', 'created_at', 'updated_at',)
     list_filter = ('created_at', 'updated_at',)
@@ -18,6 +15,7 @@ class PickUpStationAdmin(admin.ModelAdmin):
     list_filter = ('created_at', 'updated_at',)
     search_fields = ('name',)
     readonly_fields = ('created_at', 'updated_at',)
+
 
 class UserPickUpStationAdmin(admin.ModelAdmin):
     list_display = ('user', 'station', 'created_at', 'updated_at',)
