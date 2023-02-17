@@ -32,9 +32,6 @@ class ServiceAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
-
-
-
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ('product', 'order', 'service', 'quantity',)
     list_filter = ('product',)
