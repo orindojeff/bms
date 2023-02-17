@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 from decimal import ROUND_HALF_EVEN
 import os
+from djmoney.settings import CURRENCIES
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-ra(tur=6$zfr##^0m&ce$h_wd412t(g@411yaf57vz&(#%&*)2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     'djmoney',
     'finance',
     'delivery',
+    'django_mysql',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware'
 ]
 
 ROOT_URLCONF = 'wallpaperkenya.urls'
@@ -143,6 +147,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Set the default currency
 DEFAULT_CURRENCY = 'KES'
+
+
+
+# # settings.py
+import moneyed
+from moneyed import CURRENCIES, Currency
+
+CURRENCIES['KES'] = Currency(code='KES', name='Kenyan Shilling')
+
 
 # Set the exchange rate source
 EXCHANGE_BACKEND = 'djmoney.exchange.FixerBackend'

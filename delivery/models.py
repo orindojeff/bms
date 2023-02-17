@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from accounts.models import Driver, Customer
+from accounts.models import Driver, Customer, User
 from inventory.models import Order
 
 
@@ -25,13 +25,13 @@ class PickUpStation(models.Model):
 
 
 class UserPickUpStation(models.Model):
-    user = models.ForeignKey(Customer, default=None, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
     station = models.ForeignKey(PickUpStation, default=None, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user
+        return f'{self.station}'
 
 
 class Delivery(models.Model):
@@ -44,7 +44,7 @@ class Delivery(models.Model):
     delivery_date = models.DateTimeField(auto_now=True)
     station = models.ForeignKey(UserPickUpStation, default=None, on_delete=models.CASCADE)
     status = models.CharField(_('status'), max_length=3, choices=Status.choices, default=Status.PENDING, )
-    driver = models.ForeignKey(Driver, default=None, on_delete=models.CASCADE)
+    driver = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name

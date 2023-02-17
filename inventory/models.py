@@ -5,6 +5,8 @@ from accounts.models import User
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.http import Http404
+from moneyed import Money
+
 
 class Category(models.Model):
 	name = models.CharField(max_length=250)
@@ -56,8 +58,9 @@ class Product(models.Model):
     @property
     def total_cost(self):
         product_cost = self.price.amount
-        installation_cost = self.category.installation_cost.amount 
+        installation_cost = self.category.installation_cost.amount if self.category.installation_cost else 0
         return product_cost + installation_cost
+
       
 
 
@@ -65,7 +68,6 @@ class Product(models.Model):
 # def set_installation_cost(sender, instance, **kwargs):
 #     if instance.category and not instance.installation_cost:
 #         instance.installation_cost = instance.category.installation_cost
-
 
 
 class Order(models.Model):
@@ -84,23 +86,28 @@ class Order(models.Model):
     is_completed = models.BooleanField(default=False)
 
     @property
-    def total_price(self):
-        product_prices = [item.product.price.amount for item in self.orderitem_set.all()]
-        product_price = sum(product_prices)
-        installation_cost = self.service_cost.amount
-        total_cost = installation_cost + product_price
-        return total_cost
-
-    @property
     def service_cost(self):
-        category = Category.objects.get(name=self.service)
-        return category.installation_cost
+        if self.service == Order.DESIGN_AND_INSTALLATION:
+            product_prices = [item.product.price for item in self.orderitem_set.all() if item.product.price is not None]
+            product_price = sum(product_prices)
+            installation_cost = sum([item.product.category.installation_cost for item in self.orderitem_set.all() if item.product.category and item.product.category.installation_cost])
+            return product_price + installation_cost
+
+        elif self.service == Order.DESIGN_ONLY:
+            product_prices = [item.product.price for item in self.orderitem_set.all() if item.product.price is not None]
+            product_price = sum(product_prices)
+            return product_price
+
+        else:
+            installation_cost = sum([item.product.category.installation_cost for item in self.orderitem_set.all() if item.product.category and item.product.category.installation_cost])
+            return installation_cost
+
 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    
+
     @property
     def subtotal(self):
         return self.product.price.amount * self.quantity
@@ -121,3 +128,6 @@ def get_installation_cost(category_name):
         raise Http404("Category does not exist")
     
     return category.installation_cost.amount if category.installation_cost else 0
+
+
+

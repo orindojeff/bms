@@ -25,7 +25,7 @@ class UserPickUpStationAdmin(admin.ModelAdmin):
 
 
 class DeliveryAdmin(admin.ModelAdmin):
-    list_display = ('order', 'delivery_date', 'station', 'status', 'driver',)
+    list_display = ('id', 'order', 'delivery_date', 'station', 'status', 'driver',)
     list_filter = ('delivery_date', 'station',)
     search_fields = ('name', 'order')
     readonly_fields = ('delivery_date',)
