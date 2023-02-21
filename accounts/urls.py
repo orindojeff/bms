@@ -1,6 +1,7 @@
 from django.urls import path
 import accounts
-from .views import home, UserCreateView
+from .views import home, UserCreateView, user_login, customer, designer, inventory
+
 
 
 app_name = 'accounts'
@@ -8,5 +9,9 @@ app_name = 'accounts'
 
 urlpatterns = [
     # path('', home, name='home'),
-    path('', UserCreateView.as_view(), name="register"),
+    path('register', UserCreateView.as_view(), name="register"),
+    path('', user_login, name='login'),
+    path('customer', customer, name='customer'),
+    path('designer', designer, name='designer'),
+    path('inventory', inventory, name='inventory')
 ]

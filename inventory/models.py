@@ -6,6 +6,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.http import Http404
 from moneyed import Money
+from django.db.models import Sum
 
 
 class Category(models.Model):
@@ -84,6 +85,16 @@ class Order(models.Model):
     service = models.CharField(max_length=255, choices=SERVICE_CHOICES)
     date_ordered = models.DateTimeField(auto_now_add=True)
     is_completed = models.BooleanField(default=False)
+    transaction_id =models.CharField(max_length=10, default='Pending Payment')
+
+    # @property
+    def order_quantity(self, obj):
+        return obj.orderitem.quantity
+
+    def transaction_id(self, obj):
+        return obj.order.transaction_id
+
+
 
     @property
     def service_cost(self):
@@ -103,6 +114,7 @@ class Order(models.Model):
             return installation_cost
 
 
+
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -112,13 +124,13 @@ class OrderItem(models.Model):
     def subtotal(self):
         return self.product.price.amount * self.quantity
 
+    def order_quantity(self, obj):
+        return obj.orderitem.quantity
+
 class Payment(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_method = models.CharField(max_length=255)
-    transaction_id = models.CharField(max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
-
 
 
 def get_installation_cost(category_name):
@@ -128,6 +140,5 @@ def get_installation_cost(category_name):
         raise Http404("Category does not exist")
     
     return category.installation_cost.amount if category.installation_cost else 0
-
 
 

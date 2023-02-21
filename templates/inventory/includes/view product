@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    {% for product in object_list %}
+      <div class="col-md-4 mb-3">
+        <div class="card h-100">
+          <a href="{% url 'product-detail' product.pk %}">
+            <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}">
+          </a>
+          <div class="card-body">
+            <h4 class="card-title">
+              <a href="{% url 'product-detail' product.pk %}">{{ product.name }}</a>
+            </h4>
+            <p class="card-text">{{ product.description }}</p>
+            <h5 class="card-text">${{ product.price }}</h5>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No products available.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

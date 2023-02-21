@@ -34,6 +34,9 @@ class User(AbstractUser):
     created = models.DateTimeField(auto_now_add=True)
 
 
+
+
+
 class Profile(TimeStamp):
     class Gender(models.TextChoices):
         MALE = 'M', _('Male')

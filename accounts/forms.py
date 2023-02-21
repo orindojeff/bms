@@ -2,6 +2,7 @@
 from django.contrib.auth import logout, get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, ReadOnlyPasswordHashField
 from django.forms import forms, ModelForm
+from django import forms
 
 User = get_user_model()
 
@@ -23,7 +24,7 @@ class ClientAuthenticationForm(AuthenticationForm):
 class RegistrationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ['first_name', 'last_name', 'email', 'username', 'password1', 'password2']
+        fields = ['name', 'email', 'username', 'password1', 'password2']
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -54,3 +55,20 @@ class UserAdminChangeForm(ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control"
+            }
+        )
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "form-control"
+            }
+        )
+    )

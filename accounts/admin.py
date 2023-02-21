@@ -71,37 +71,6 @@ class UserAdmin(ExportCsvMixin, BaseUserAdmin):
 
     make_inactive.short_description = "Archive User"
 
-    # def get_queryset(self, request):
-    #     queryset = super().get_queryset(request)
-    #     queryset = queryset.annotate(
-    #         total_projects=Count("projects", distinct=True),
-    #     )
-    #     return queryset
-
-    # @staticmethod
-    # def has_delete_permission(request, obj=None):
-    #     return False
-
-    # @staticmethod
-    # def has_change_permission(request, obj=None):
-    #     return True
-
-    # @staticmethod
-    # def has_add_permission(request, obj=None):
-    #     return True
-
-    # @staticmethod
-    # def projects_count(obj):
-    #     return obj.total_projects
-
-    # def get_actions(self, request):
-    #     actions = super().get_actions(request)
-    #     if 'delete_selected' in actions:
-    #         del actions['delete_selected']
-    #     return actions
-
-    # projects_count.admin_order_field = 'total_projects'
-
 
 @admin.register(Profile)
 class ProfileAdmin(ExportCsvMixin, ModelAdmin):
