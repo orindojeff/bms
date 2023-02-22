@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'inventory',
     'djmoney',
     'finance',
-    'delivery',
+    'shipping',
     'django_mysql',
 ]
 
