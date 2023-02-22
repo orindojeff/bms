@@ -31,9 +31,9 @@ class UserPickUpStation(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.station}'
+        return f"{self.station}"
 
-
+   
 class Shipping(models.Model):
     class Status(models.TextChoices):
         PENDING = 'PD', _('Pending')

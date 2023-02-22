@@ -18,10 +18,13 @@ class PickUpStationAdmin(admin.ModelAdmin):
 
 
 class UserPickUpStationAdmin(admin.ModelAdmin):
-    list_display = ('user', 'station', 'created_at', 'updated_at',)
+    list_display = ('user', 'station', 'location', 'created_at', 'updated_at',)
     list_filter = ('created_at', 'updated_at', 'station')
     search_fields = ('user', 'station',)
     readonly_fields = ('created_at', 'updated_at',)
+
+    def location(self, obj):
+        return obj.station.location
 
 
 class ShippingAdmin(admin.ModelAdmin):
