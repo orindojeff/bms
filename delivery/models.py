@@ -34,14 +34,14 @@ class UserPickUpStation(models.Model):
         return f'{self.station}'
 
 
-class Delivery(models.Model):
+class Shipping(models.Model):
     class Status(models.TextChoices):
         PENDING = 'PD', _('Pending')
         OUT_FOR_DELIVERY = 'OFD', _('Out For Delivery')
         DELIVERED = 'DL', _('Delivered')
 
     order = models.ForeignKey(Order, default=None, on_delete=models.CASCADE)
-    delivery_date = models.DateTimeField(auto_now=True)
+    delivery_date = models.DateTimeField(auto_now=True, verbose_name='shipped_date')
     station = models.ForeignKey(UserPickUpStation, default=None, on_delete=models.CASCADE)
     status = models.CharField(_('status'), max_length=3, choices=Status.choices, default=Status.PENDING, )
     driver = models.ForeignKey(User, default=None, on_delete=models.CASCADE)

@@ -18,6 +18,7 @@ class User(AbstractUser):
         FINANCE = 'FM', _('Finance Manager')
         INVENTORY = 'IT', _('Inventory Manager')
         DESIGNER = 'DS', _('Designer')
+        SUPPLY = 'SP', _('Supply')
         DRIVER = 'DR', _('Driver')
         ADMIN = 'AD', _('Admin')
 

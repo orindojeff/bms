@@ -1,6 +1,6 @@
 from django.contrib import admin, messages
 from django.contrib.admin import ModelAdmin
-from .models import Location, PickUpStation, UserPickUpStation, Delivery
+from .models import Location, PickUpStation, UserPickUpStation, Shipping
 
 
 class LocationAdmin(admin.ModelAdmin):
@@ -24,7 +24,7 @@ class UserPickUpStationAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at',)
 
 
-class DeliveryAdmin(admin.ModelAdmin):
+class ShippingAdmin(admin.ModelAdmin):
     list_display = ('id', 'order', 'delivery_date', 'station', 'status', 'driver',)
     list_filter = ('delivery_date', 'station',)
     search_fields = ('name', 'order')
@@ -34,4 +34,4 @@ class DeliveryAdmin(admin.ModelAdmin):
 admin.site.register(Location, LocationAdmin)
 admin.site.register(PickUpStation, PickUpStationAdmin)
 admin.site.register(UserPickUpStation, UserPickUpStationAdmin)
-admin.site.register(Delivery, DeliveryAdmin)
+admin.site.register(Shipping, ShippingAdmin)
