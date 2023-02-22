@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import ProductListView, CategoryListView, OrderListView
+from .views import *
 
 app_name = 'inventory'
 
@@ -25,4 +25,14 @@ urlpatterns = [
     path('payment/create/', views.PaymentCreateView.as_view(), name='payment-create'),
     path('payment/<int:pk>/update/', views.PaymentUpdateView.as_view(), name='payment-update'),
     path('payment/<int:pk>/delete/', views.PaymentDeleteView.as_view(), name='payment-delete'),
+
+
+
+    # # cart
+    # path('view-product', views.ProductView.as_view(), name='view-product'),
+    # path('add_to_cart/<int:id>/', views.add_to_cart, name='add_to_cart'),
+    # path('cart/', cart, name='cart'),
+    # path('remove_from_cart/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
+    # path('decrease_cart_item/<int:product_id>/', decrease_cart_item, name='decrease_cart_item'),
+    # path('checkout/', checkout, name='checkout'),
 ]

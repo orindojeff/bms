@@ -1,5 +1,5 @@
 from django import forms
-from .models import Category, Service, Product, Order, OrderItem, Payment
+from .models import Category, Service, Product, Order,  Payment
 
 
 class CategoryForm(forms.ModelForm):
@@ -62,18 +62,18 @@ class OrderForm(forms.ModelForm):
         }
 
 
-class OrderItemForm(forms.ModelForm):
-    class Meta:
-        model = OrderItem
-        fields = ('product', 'quantity')
-        labels = {
-            'product': 'Product',
-            'quantity': 'Quantity'
-        }
-        widgets = {
-            'product': forms.Select(attrs={'class': 'form-control'}),
-            'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min': 1})
-        }
+# class OrderItemForm(forms.ModelForm):
+#     class Meta:
+#         model = OrderItem
+#         fields = ('product', 'quantity')
+#         labels = {
+#             'product': 'Product',
+#             'quantity': 'Quantity'
+#         }
+#         widgets = {
+#             'product': forms.Select(attrs={'class': 'form-control'}),
+#             'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min': 1})
+#         }
 
 
 class PaymentForm(forms.ModelForm):
@@ -87,3 +87,19 @@ class PaymentForm(forms.ModelForm):
         widgets = {
             'amount': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+
+
+# cart
+
+class AddToCartForm(forms.Form):
+    product_id = forms.IntegerField(widget=forms.HiddenInput())
+    quantity = forms.IntegerField(initial=1)
+
+    def clean_product_id(self):
+        product_id = self.cleaned_data['product_id']
+        try:
+            Product.objects.get(pk=product_id)
+        except Product.DoesNotExist:
+            raise forms.ValidationError("Invalid product")
+        return product_id

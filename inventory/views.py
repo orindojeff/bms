@@ -3,11 +3,18 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
-from .forms import CategoryForm, ProductForm, OrderForm, OrderItemForm, PaymentForm
-from .models import Category, Product, Order, OrderItem, Payment
+from .forms import CategoryForm, ProductForm, OrderForm,PaymentForm
+from .models import Category, Product, Order, Payment
 from django.views.generic import DetailView
-
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .models import Product,Order, CartItem, Cart
+from .forms import AddToCartForm
+from .utils import get_or_create_order, get_or_create_order_id, get_or_create_cart
 from django.db.models import Sum
+from django.db import transaction
+from django.urls import reverse
 
 
 class CategoryListView(LoginRequiredMixin, ListView):
@@ -138,10 +145,6 @@ class OrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         return self.get_object().user == self.request.user
 
-class OrderItemCreateView(CreateView):
-    model = OrderItem
-    template_name = 'orderitem_form.html'
-    form_class = OrderItemForm
 
 
 class PaymentCreateView(CreateView):
@@ -215,3 +218,10 @@ class PaymentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 #         'order_items': order_items,
 #     }
 #     return render(request, 'orders/order_detail.html', context)
+
+
+class ProductView(ListView):
+    model = Product
+    template_name = 'customer/view-product.html'
+    context_object_name = 'products'
+    paginate_by = 12

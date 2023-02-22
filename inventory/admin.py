@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib import admin
-from .models import Product, Category, Service, Order, OrderItem
+from .models import Product, Category, Service, Order
 from django.contrib.auth.models import Group
 from django.utils.html import format_html
 from moneyed import Money
@@ -32,14 +32,14 @@ class ServiceAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
-class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ('product', 'order', 'service', 'quantity',)
-    list_filter = ('product',)
-    search_fields = ('product', 'order')
-    readonly_fields = ()
+# class OrderItemAdmin(admin.ModelAdmin):
+#     list_display = ('product', 'order', 'service', 'quantity',)
+#     list_filter = ('product',)
+#     search_fields = ('product', 'order')
+#     readonly_fields = ()
 
-    def service(self, obj):
-        return obj.order.service
+#     def service(self, obj):
+#         return obj.order.service
     
 
 
@@ -56,7 +56,7 @@ class OrderAdmin(admin.ModelAdmin):
     service_cost_display.short_description = 'Service Cost'
 
 admin.site.register(Order, OrderAdmin)
-admin.site.register(OrderItem, OrderItemAdmin)
+# admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(Product, ProductAdmin,)
 admin.site.register(Category, CategoryAdmin,)
 admin.site.register(Service, ServiceAdmin,)

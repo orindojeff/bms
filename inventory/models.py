@@ -6,7 +6,18 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.http import Http404
 from moneyed import Money
+from django.db.models import CASCADE
 from django.db.models import Sum
+
+# cart
+from django.db import models
+from djmoney.models.fields import MoneyField
+from django.utils.translation import gettext_lazy as _
+from accounts.models import User
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from django.http import Http404
+from moneyed import Money
 
 
 class Category(models.Model):
@@ -81,7 +92,7 @@ class Order(models.Model):
         (DESIGN_ONLY, 'Design Only'),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product, through='OrderItem')
+    products = models.ManyToManyField(Product, through='CartItem')
     service = models.CharField(max_length=255, choices=SERVICE_CHOICES)
     date_ordered = models.DateTimeField(auto_now_add=True)
     is_completed = models.BooleanField(default=False)
@@ -99,33 +110,51 @@ class Order(models.Model):
     @property
     def service_cost(self):
         if self.service == Order.DESIGN_AND_INSTALLATION:
-            product_prices = [item.product.price for item in self.orderitem_set.all() if item.product.price is not None]
+            product_prices = [item.product.price for item in self.cartitem_set.all() if item.product.price is not None]
             product_price = sum(product_prices)
-            installation_cost = sum([item.product.category.installation_cost for item in self.orderitem_set.all() if item.product.category and item.product.category.installation_cost])
+            installation_cost = sum([item.product.category.installation_cost for item in self.cartitem_set.all() if item.product.category and item.product.category.installation_cost])
             return product_price + installation_cost
 
         elif self.service == Order.DESIGN_ONLY:
-            product_prices = [item.product.price for item in self.orderitem_set.all() if item.product.price is not None]
+            product_prices = [item.product.price for item in self.cartitem_set.all() if item.product.price is not None]
             product_price = sum(product_prices)
             return product_price
 
         else:
-            installation_cost = sum([item.product.category.installation_cost for item in self.orderitem_set.all() if item.product.category and item.product.category.installation_cost])
+            installation_cost = sum([item.product.category.installation_cost for item in self.cartitem_set.all() if item.product.category and item.product.category.installation_cost])
             return installation_cost
 
 
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    items = models.ManyToManyField(Product, through='CartItem', related_name='carts')
 
-class OrderItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.user.username}'s Cart"
+
+from django.db import models
+from inventory.models import Order, Product
+
+class CartItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    cart = models.ForeignKey(Cart, on_delete=CASCADE)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name}"
+    
+    def save(self, *args, **kwargs):
+        if not self.order_id:
+            self.order_id = get_or_create_order_id(self.order.user)
+        super().save(*args, **kwargs)
 
     @property
     def subtotal(self):
         return self.product.price.amount * self.quantity
 
-    def order_quantity(self, obj):
-        return obj.orderitem.quantity
 
 class Payment(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -140,5 +169,15 @@ def get_installation_cost(category_name):
         raise Http404("Category does not exist")
     
     return category.installation_cost.amount if category.installation_cost else 0
+
+
+# cart
+
+def get_or_create_order_id(id):
+    order_id, created = Order.objects.get_or_create(id=id, ordered=False)
+    return order_id
+
+
+
 
 
