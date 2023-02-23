@@ -1,44 +1,55 @@
-{% extends "inventory/layouts/base.html" %}
+{% extends 'inventory/layouts/base.html' %}
 
 {% block content %}
-  <div class="container">
-    <h2>Shipping List</h2>
-    <br>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Shipping ID</th>
-          <th>Customer</th>
-          <th>Driver</th>
-          <th>Location</th>
-          <th>Pick-up Station</th>
-          <th>Delivery Date</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for shipping in shippings %}
-        <tr>
-          <td>{{ shipping.id }}</td>
-          <td>{{ shipping.order.user }}</td>
-          <td>{{ shipping.driver }}</td>
-          <td>{{ shipping.station.location}}</td>
-          <td>{{ shipping.station }}</td>
-          <td>{{ shipping.delivery_date }}</td>
-          <td>{{ shipping.status }}</td>
-          <td>
-            <a href="{% url 'shipping:shipping_detail' shipping.id %}" class="btn btn-info">Detail</a>
-            <a href="{% url 'shipping:shipping_update' shipping.id %}" class="btn btn-warning">Update</a>
-            <a href="{% url 'shipping:shipping_delete' shipping.id %}" class="btn btn-danger">Delete</a>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="5">No shippings found.</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Shipping List</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                                <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>Shipping ID</th>
+                                    <th>Customer</th>
+                                    <th>Driver</th>
+                                    <th>Location</th>
+                                    <th>Pick-up Station</th>
+                                    <th>Delivery Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for shipping in shippings %}
+                                  <tr>
+                                    <td>{{ shipping.id }}</td>
+                                    <td>{{ shipping.order.user }}</td>
+                                    <td>{{ shipping.driver }}</td>
+                                    <td>{{ shipping.station.location}}</td>
+                                    <td>{{ shipping.station }}</td>
+                                    <td>{{ shipping.delivery_date }}</td>
+                                    <td>{{ shipping.status }}</td>
+                                    <td>
+                                      <a href="{% url 'shipping:shipping_detail' shipping.id %}" class="btn btn-info">Detail</a>
+                                      <a href="{% url 'shipping:shipping_update' shipping.id %}" class="btn btn-warning">Update</a>
+                                      <a href="{% url 'shipping:shipping_delete' shipping.id %}" class="btn btn-danger">Delete</a>
+                                    </td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                    <td colspan="5">No shippings found.</td>
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
