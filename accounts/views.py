@@ -64,6 +64,25 @@ def user_login(request):
 
 
 
+class LogoutView(View):
+
+    def get(self, *args, **kwargs):
+        logout(self.request)
+        messages.success(self.request, "You've logged out successfully.")
+        return redirect('accounts:login')
+
+
+# class ProfileView(SuccessMessageMixin, UpdateView):
+#     template_name = 'profile.html'
+#     form_class = ProfileModelForm
+#     success_url = reverse_lazy('')
+#     success_message = "You're profile has been updated successfully"
+
+#     def get_object(self, queryset=None):
+#         profile, created = Profile.objects.get_or_create(user=self.request.user)
+#         return profile
+
+
 
 @required_access(login_url=reverse_lazy('accounts:login'), user_type="IT")
 def inventory(request):

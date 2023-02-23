@@ -2,7 +2,11 @@ from django.urls import path
 from . import views
 from .views import *
 
+
 app_name = 'inventory'
+
+
+http_method_names = ['get', 'post']
 
 urlpatterns = [
     # path('', views.HomeView.as_view(), name='home'),
@@ -30,9 +34,6 @@ urlpatterns = [
 
     # # cart
     path('view-product', views.ProductView.as_view(), name='view-product'),
-    # path('add_to_cart/<int:id>/', views.add_to_cart, name='add_to_cart'),
-    # path('cart/', cart, name='cart'),
-    # path('remove_from_cart/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
-    # path('decrease_cart_item/<int:product_id>/', decrease_cart_item, name='decrease_cart_item'),
-    # path('checkout/', checkout, name='checkout'),
+
 ]
+

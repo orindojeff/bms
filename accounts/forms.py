@@ -1,8 +1,8 @@
-
 from django.contrib.auth import logout, get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, ReadOnlyPasswordHashField
 from django.forms import forms, ModelForm
 from django import forms
+from .models import Profile
 
 User = get_user_model()
 
@@ -72,3 +72,10 @@ class LoginForm(forms.Form):
             }
         )
     )
+
+    
+
+class ProfileModelForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['photo', 'phone_number', 'gender']

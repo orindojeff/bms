@@ -1,6 +1,8 @@
 from django.contrib import admin, messages
 from django.contrib.admin import ModelAdmin
 from .models import Location, PickUpStation, UserPickUpStation, Shipping
+from inventory.models import Order
+
 
 
 class LocationAdmin(admin.ModelAdmin):
@@ -33,8 +35,13 @@ class ShippingAdmin(admin.ModelAdmin):
     search_fields = ('name', 'order')
     readonly_fields = ('delivery_date',)
 
+    # def transaction_id(self, obj):
+    #     return obj.order.transaction_id
+
 
 admin.site.register(Location, LocationAdmin)
 admin.site.register(PickUpStation, PickUpStationAdmin)
 admin.site.register(UserPickUpStation, UserPickUpStationAdmin)
 admin.site.register(Shipping, ShippingAdmin)
+
+

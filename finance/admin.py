@@ -22,13 +22,16 @@ from .models import OrderPayment, Invoice
 #         return obj.order.product.name
 
 class OrderPaymentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order', 'amount', 'transaction_id', 'date',)
+    list_display = ('transaction_id', 'user', 'amount', 'date',)
     list_filter = ('date',)
     search_fields = ('transaction_id', 'order')
     readonly_fields = ('date',)
 
-    def order_name(self, obj):
-        return obj.order.name
+    def user(self, obj):
+        return obj.order.user
+
+    # def o_id(self, obj):
+    # #    return obj.order.transaction_id
 
 class InvoiceAdmin(admin.ModelAdmin):
     list_display = ('invoice_number', 'order', 'customer', 'total_amount', 'date', 'payment_status',)
@@ -37,7 +40,7 @@ class InvoiceAdmin(admin.ModelAdmin):
     readonly_fields = ('date',)
 
     def order_name(self, obj):
-        return obj.order.name
+        return obj.order.transaction_id
 
     def payment_amount(self, obj):
         return obj.order_payment.amount

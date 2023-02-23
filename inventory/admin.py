@@ -44,7 +44,7 @@ class ServiceAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'service', 'date_ordered', 'service_cost_display', 'is_completed')
+    list_display = ('id', 'user', 'transaction_id', 'service', 'date_ordered', 'service_cost_display', 'is_completed')
     list_filter = ('service', 'is_completed')
     search_fields = ('id', 'user__username')
     readonly_fields = ('service_cost',)

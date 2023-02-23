@@ -41,12 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'phonenumber_field',
     'widget_tweaks',
+    
+    'django_mysql',
+    'crispy_forms',
+    'bootstrap4',
+
+    # my apps
     'accounts',
     'inventory',
     'djmoney',
     'finance',
     'shipping',
-    'django_mysql',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +79,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shipping.context_processors.crispy_forms_settings',
+            ],
+
+            'builtins': [
+                'crispy_forms.templatetags.crispy_forms_tags',
+                'crispy_forms.templatetags.crispy_forms_field',
             ],
         },
     },
@@ -110,6 +121,17 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+# settings.py
+
+# Import crispy forms
+from crispy_forms import __version__ as CRISPY_VERSION
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Rest of your settings code goes here
+
 
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -165,3 +187,4 @@ MONEY_QUANTIZE_POLICY = ROUND_HALF_EVEN
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

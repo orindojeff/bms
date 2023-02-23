@@ -46,5 +46,6 @@ class Shipping(models.Model):
     status = models.CharField(_('status'), max_length=3, choices=Status.choices, default=Status.PENDING, )
     driver = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
 
-    # def __str__(self):
-    #     return self.name
+    def Shipping(request):
+        shipping = Shipping.objects.all()
+        return render (request,  {'Shipping': Shipping})

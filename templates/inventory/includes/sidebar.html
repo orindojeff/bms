@@ -102,15 +102,25 @@
             </li><br>
 
             <li class="menu-item">
-              <a href="#"><i class="fas fa-plus-square">
-              </i>Create Delivery</a>
+              <a href="{% url 'shipping:shipping_create' %}"><i class="fas fa-plus-square">
+              </i>Create Shipping</a>
             </li><br>
 
             <li class="menu-item">
-              <a href="#"><i class="fas fa-truck">
-              </i>Delivery List</a>
-            </li>
+              <a href="{% url 'shipping:shipping_list' %}"><i class="fas fa-truck">
+              </i>Shipping List</a>
+            </li><br>
             
+
+            <li class="menu-item">
+              <a href="{% url 'shipping:pickupstation_create' %}"><i class="fas fa-plus-square">
+              </i>Add PickUpstation</a>
+            </li><br>
+
+            <li class="menu-item">
+              <a href="{% url 'shipping:pickupstation_list' %}"><i class="fas fa-truck">
+              </i>PickUpstation List</a>
+            </li>
 
               <hr>
 

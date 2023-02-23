@@ -1,0 +1,39 @@
+
+<!-- shipping/templates/shipping/pickupstation_list.html -->
+
+{% extends "inventory/layouts/base.html" %}
+
+{% block content %}
+  <div class="container">
+    <h2>Pick-up Stations</h2>
+    <br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Location</th>
+          <th>Station Name</th>
+          <th>Station Address</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pickupstation in pickupstations %}
+          <tr>
+            <td>{{ pickupstation.location }}</td>
+            <td>{{ pickupstation.name }}</td>
+            <td>{{ pickupstation.address }}</td>
+            <td>
+              <a href="{% url 'shipping:pickupstation_detail' pickupstation.id %}" class="btn btn-info">View</a>
+              <a href="{% url 'shipping:pickupstation_update' pickupstation.id %}" class="btn btn-warning">Edit</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="4">No pick-up stations found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+

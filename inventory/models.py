@@ -29,27 +29,10 @@ class Category(models.Model):
 		return self.name
 
 
-	
-# class Services(models.Model):
-# 	class ServiceTypes(models.TextChoices):
-# 		DESIGN = 'DS', _('Design')
-# 		INSTALLATION = 'IT', _('Installation')
-# 		DESIGN_INSTALLATION = 'DI', _('Design & Installation')
-
-# 	Service_type = models.CharField(
-#         max_length=3,
-#         choices=ServiceTypes.choices,
-#         default=ServiceTypes.DESIGN_INSTALLATION
-#     )
-        
-
 class Service(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField()
- 
-    
-    def __str__(self):
-        return self.name
+    name = models.CharField(max_length=10)
+    description = models.TextField(max_length=255)
+
 
 
    
@@ -76,10 +59,10 @@ class Product(models.Model):
       
 
 
-# @receiver(pre_save, sender=Product)
-# def set_installation_cost(sender, instance, **kwargs):
-#     if instance.category and not instance.installation_cost:
-#         instance.installation_cost = instance.category.installation_cost
+@receiver(pre_save, sender=Product)
+def set_installation_cost(sender, instance, **kwargs):
+    if instance.category and not instance.installation_cost:
+        instance.installation_cost = instance.category.installation_cost
 
 
 class Order(models.Model):
@@ -96,17 +79,13 @@ class Order(models.Model):
     service = models.CharField(max_length=255, choices=SERVICE_CHOICES)
     date_ordered = models.DateTimeField(auto_now_add=True)
     is_completed = models.BooleanField(default=False)
-    transaction_id =models.CharField(max_length=10, default='Pending Payment')
+    transaction_id =models.CharField(max_length=10, default='Pending Payment', verbose_name='order')
 
     # @property
     def order_quantity(self, obj):
         return obj.orderitem.quantity
 
-    def transaction_id(self, obj):
-        return obj.order.transaction_id
-
-
-
+  
     @property
     def service_cost(self):
         if self.service == Order.DESIGN_AND_INSTALLATION:
@@ -176,8 +155,6 @@ def get_installation_cost(category_name):
 def get_or_create_order_id(id):
     order_id, created = Order.objects.get_or_create(id=id, ordered=False)
     return order_id
-
-
 
 
 

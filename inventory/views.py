@@ -225,3 +225,5 @@ class ProductView(ListView):
     template_name = 'customer/view-product.html'
     context_object_name = 'products'
     paginate_by = 12
+
+

@@ -1,0 +1,12 @@
+{% extends 'customer/layouts/base.html' %}
+
+{% block content %}
+  <h1>User Pickup Stations</h1>
+  <ul>
+  {% for userpickupstation in userpickupstations %}
+    <li><a href="{% url 'userpickupstation_detail' userpickupstation.pk %}">{{ userpickupstation }}</a></li>
+  {% empty %}
+    <li>No user pickup stations yet.</li>
+  {% endfor %}
+  </ul>
+{% endblock %}

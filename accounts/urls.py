@@ -1,6 +1,6 @@
 from django.urls import path
 import accounts
-from .views import home, UserCreateView, user_login, customer, designer, inventory
+from .views import home, UserCreateView, user_login, customer, designer, inventory, LogoutView
 
 
 
@@ -13,5 +13,6 @@ urlpatterns = [
     path('', user_login, name='login'),
     path('customer', customer, name='customer'),
     path('designer', designer, name='designer'),
-    path('inventory', inventory, name='inventory')
+    path('inventory', inventory, name='inventory'),
+    path('logout/', LogoutView.as_view(), name="logout"),
 ]
