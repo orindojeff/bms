@@ -4,6 +4,7 @@ from .models import Order, Sales, Payment
 from .forms import OrderForm, SalesForm, PaymentForm
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db import models
 
 
 
@@ -100,8 +101,9 @@ class PaymentCreateView(CreateView):
 class PaymentUpdateView(UpdateView):
     model = Payment
     form_class = PaymentForm
-    template_name = 'payment_update.html'
-    success_url = reverse_lazy('stock:payment-list')
+    template_name = 'payment_update.html    '
+    success_url = reverse_lazy('inventory:payment-list')
+
 
 class PaymentDeleteView(DeleteView):
     model = Payment
@@ -132,8 +134,17 @@ class PaymentListView(ListView):
 
 
 def index(request):
-    return render(request, 'index.html')
-
+    total_sales = Sales.objects.aggregate(models.Sum('daily_sales'))['daily_sales__sum']
+    total_payments = Payment.objects.aggregate(models.Sum('amount'))['amount__sum']
+    total_balance = Payment.objects.aggregate(models.Sum('invoice_balance'))['invoice_balance__sum'] - total_payments
+    order_items = Order.objects.order_by('-date')[:10]
+    context = {
+        'total_sales': total_sales,
+        'total_payments': total_payments,
+        'total_balance': total_balance,
+        'order_items': order_items,
+    }
+    return render(request, 'index.html', context)
 
 
 

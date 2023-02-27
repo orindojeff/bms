@@ -7,7 +7,9 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">My Order List</h3>
+                       
+                        <li  class="menu-item"><a href="{% url 'inventory:index' %}"><i class="fas fa-home"></i>Dashboard</a><h3 class="card-title">My Sales List</li></h3>
+                       <a href="{% url 'inventory:sales-create' %}" class="btn btn-primary btn-sm">Add</a>
                         <!-- <a href="" class="btn btn-primary float-right"><i class="fa fa-print"></i> Print PDF</a> -->
                     </div>
                     <div class="card-body">
@@ -31,7 +33,7 @@
                                 <td>{{ sale.get_80 }}</td>
                                 <td>{{ sale.get_20 }}</td>
                                <td>
-                                  <a href="{% url 'inventory:sales-create' %}" class="btn btn-primary btn-sm">Add</a>
+                                  <!-- <a href="{% url 'inventory:sales-create' %}" class="btn btn-primary btn-sm">Add</a> -->
                                   <a href="{% url 'inventory:sales-update' sale.pk %}" class="btn btn-info btn-sm">View</a>
                                   <a href="{% url 'inventory:sales-delete' sale.pk %}" class="btn btn-danger btn-sm">Delete</a>
                               </td>

@@ -36,14 +36,20 @@
 
   </head>
 <body>
+<div class="layout-wrapper layout-content-navbar">
+     
 {% include 'includes/navbar.html' %}
   {% include 'includes/sidebar.html' %}
 
-  <main id="main" class="main">
+</div>
+<div class="content-wrapper">
     {% include 'components/messages.html' %}
     {% block content %}{% endblock %}
-  </main><!-- End #main -->
+</div>
+
+
   {% include 'includes/scripts.html' %}
+
 </body>
 
 </html>
