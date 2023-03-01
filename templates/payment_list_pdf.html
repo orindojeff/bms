@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Milele Bookshop Payments PDF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 50px auto;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid black;
+        }
+        th {
+            background-color: lightgrey;
+        }
+    </style>
+</head>
+<body>
+    <h1>Payments PDF</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Invoice Number</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Invoice Balance</th>
+                <th>Balance Due</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for payment in payments %}
+            <tr>
+                <td>{{ payment.invoice_number }}</td>
+                <td>{{ payment.date }}</td>
+                <td>{{ payment.amount }}</td>
+                <td>{{ payment.invoice_balance }}</td>
+                <td>{{ payment.get_balance }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

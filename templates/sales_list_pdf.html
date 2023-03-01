@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sales PDF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 50px auto;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid black;
+        }
+        th {
+            background-color: lightgrey;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sales PDF</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Daily Sales</th>
+                <th>80% of Daily Sales</th>
+                <th>20% of Daily Sales</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+                <td>{{ sale.date }}</td>
+                <td>{{ sale.daily_sales }}</td>
+                <td>{{ sale.get_80 }}</td>
+                <td>{{ sale.get_20 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
