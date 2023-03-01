@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+  <h1>Order List</h1>
+
+  <a href="{% url 'order_csv' %}" class="btn btn-primary">Download as CSV</a>
+  <a href="{% url 'order_pdf' %}" class="btn btn-primary">Download as PDF</a>
+  <a href="{% url 'order_xls' %}" class="btn btn-primary">Download as XLS</a>
+  <a href="{% url 'order_docs' %}" class="btn btn-primary">Download as DOCX</a>
+
+  <hr>
+
+  {% for order in object_list %}
+    <p>Date: {{ order.date }}</p>
+    <p>Item: {{ order.item }}</p>
+    <p>Quantity: {{ order.quantity }}</p>
+    <p>Cost per Item: {{ order.cost }}</p>
+    <p>Total Cost: {{ order.total_cost }}</p>
+    <hr>
+  {% endfor %}
+{% endblock %}

@@ -27,6 +27,7 @@ class Sales(models.Model):
 
 
 class Payment(models.Model):
+	invoice_number = models.CharField(max_length=10, default="")
 	date = models.DateTimeField(auto_now_add=True)
 	amount =  MoneyField(max_digits=10, decimal_places=2, default_currency='KES')
 	invoice_balance =  MoneyField(max_digits=10, decimal_places=2, default_currency='KES')
